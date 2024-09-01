@@ -13,5 +13,6 @@ $routes->get('login', [AuthController::class, 'login']);
 $routes->get('logout', [AuthController::class, 'logout']);
 $routes->post('login/attempt', [AuthController::class, 'attempt']);
 
-$routes->get('dashboard', [Dashboard::class, 'index']);
-
+$routes->group('', ['filter' => 'auth'], function ($routes) {
+    $routes->get('dashboard', [Dashboard::class, 'index']);
+});

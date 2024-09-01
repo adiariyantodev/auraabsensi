@@ -32,13 +32,20 @@ class AuthController extends BaseController
         $session_id = session_create_id();
         $session->set([
             'id' => $session_id,
-            'name' => $user['name'],
+            'user_id' => $user['id'],
         ]);
 
         $userModel->update($user['id'], [
             'session' => $session_id,
             'last_login_at' => date('Y-m-d H:i:s'),
         ]);
+
+        // Store session data in cache
+        $cache = \Config\Services::cache();
+        $cacheKey = 'session_' . $user['id'];
+        $cache->save($cacheKey, [
+            'session_id' => $session_id,
+        ], 3600); // seconds
 
         return redirect()->to('/dashboard');
     }
