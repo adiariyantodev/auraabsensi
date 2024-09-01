@@ -42,7 +42,6 @@
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="<?=base_url('sneat/assets/vendor/fonts/boxicons.css')?>" />
-    <link rel="stylesheet" href="<?=base_url('sneat/assets/vendor/fonts/boxicons.css')?>" />
 
 
     <!-- Core CSS -->
