@@ -11,6 +11,8 @@
     <!-- Layout container -->
     <div class="layout-page">
 
+        <?= $this->include('partials/navbar') ?>
+
         <!-- Content wrapper -->
         <div class="content-wrapper">
         

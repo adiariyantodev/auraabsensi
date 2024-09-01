@@ -73,14 +73,14 @@
             <h4 class="mb-2">Welcome to Sneat! 👋</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-            <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+            <form id="formAuthentication" class="mb-3" action="<?= base_url('login/attempt'); ?>" method="POST">
             <div class="mb-3">
                 <label for="email" class="form-label">Email or Username</label>
                 <input
                 type="text"
                 class="form-control"
-                id="email"
-                name="email-username"
+                id="username"
+                name="username"
                 placeholder="Enter your email or username"
                 autofocus
                 />
@@ -88,9 +88,7 @@
             <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
                 <label class="form-label" for="password">Password</label>
-                <a href="auth-forgot-password-basic.html">
-                    <small>Forgot Password?</small>
-                </a>
+
                 </div>
                 <div class="input-group input-group-merge">
                 <input
@@ -104,12 +102,13 @@
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
             </div>
-            <div class="mb-3">
-                <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="remember-me" />
-                <label class="form-check-label" for="remember-me"> Remember Me </label>
+
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger">
+                    <?= session()->getFlashdata('error') ?>
                 </div>
-            </div>
+            <?php endif; ?>
+
             <div class="mb-3">
                 <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
             </div>
