@@ -52,7 +52,15 @@ class AuthController extends BaseController
 
     public function logout()
     {
+        $userModel = new User();
+        $userModel->update(session()->get('user_id'), ['session' => null]);
+
         session()->destroy();
+
+        $cache = \Config\Services::cache();
+        $cacheKey = 'session_' . session()->get('user_id');
+        $cache->delete($cacheKey);
+
         return redirect()->to('/login');
     }
 }
