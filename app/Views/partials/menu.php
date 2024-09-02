@@ -69,18 +69,18 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item">
-          <a href="index.html" class="menu-link">
+      <li class="menu-item <?= (service('uri')->getSegment(1) == 'dashboard' ? 'active' : '' ) ?>" >
+        <a href="<?= base_url('dashboard'); ?>" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
           </a>
       </li>
 
-       <!-- Tables -->
-       <li class="menu-item active">
-          <a href="tables-basic.html" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-table"></i>
-          <div data-i18n="Tables">Tables</div>
+       <!-- Visit -->
+      <li class="menu-item <?= (service('uri')->getSegment(1) == 'visit' ? 'active' : '' ) ?>" >
+          <a href="<?= base_url('visit'); ?>" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-log-in-circle"></i>
+          <div data-i18n="Tables">Visit</div>
           </a>
       </li>
 
