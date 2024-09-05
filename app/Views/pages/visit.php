@@ -4,15 +4,7 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger">
-                <?=session()->getFlashdata('error')?>
-            </div>
-        <?php elseif (session()->getFlashdata('success')): ?>
-            <div class="alert alert-primary">
-                <?=session()->getFlashdata('success')?>
-            </div>
-        <?php endif;?>
+        <?= $this->include('partials/alert') ?>
 
         <form id="formAuthentication" class="mb-3" action="<?=base_url('visit/single-submit');?>" method="POST">
             <div class="card mb-4">
