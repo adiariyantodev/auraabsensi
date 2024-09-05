@@ -42,6 +42,7 @@ class AuthController extends BaseController
             'user_id' => $user['id'],
             'role_id' => $user['role_id'],
             'permissions' => $permissions,
+            'instance_id' => $user['instance_id'],
         ]);
 
         $userModel->update($user['id'], [

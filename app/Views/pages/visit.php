@@ -23,13 +23,11 @@
                     </div>
 
                     <input 
-                        type="text"
+                        type="hidden"
                         class="form-control"
                         id="visit_type_id"
                         name="visit_type_id"
                         value="<?= $visit_id ?>"
-                        disabled
-                        hidden
                     />
 
                     <div class="mt-3">
