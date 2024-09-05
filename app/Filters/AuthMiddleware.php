@@ -12,7 +12,7 @@ class AuthMiddleware implements FilterInterface
     {
         $session = session();
 
-        if (!$session->get('id') || !$session->get('id')) {
+        if (!$session->get('id') || !$session->get('user_id')) {
             return redirect()->to('/login')->with('error', 'Session invalid.');
         }
 
