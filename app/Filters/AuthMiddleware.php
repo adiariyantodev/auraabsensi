@@ -13,7 +13,7 @@ class AuthMiddleware implements FilterInterface
         $session = session();
 
         if (!$session->get('id') || !$session->get('id')) {
-            return redirect()->to('/login')->with('error', 'Session invalid.');
+            return redirect()->to('/login')->with('error', 'Session Expired. Please login again. E-1');
         }
 
         $cache = \Config\Services::cache();
@@ -23,7 +23,7 @@ class AuthMiddleware implements FilterInterface
         if ($cacheData) {
             // cache validation
             if ($cacheData['session_id'] != $session->get('id')) {
-                return redirect()->to('/login')->with('error', 'Session invalid.');
+                return redirect()->to('/login')->with('error', 'Session Expired. Please login again. E-2');
             }
         } else {
             // query validation
@@ -33,7 +33,7 @@ class AuthMiddleware implements FilterInterface
                 ->first();
 
             if (!$user) {
-                return redirect()->to('/login')->with('error', 'Session invalid.');
+                return redirect()->to('/login')->with('error', 'Session Expired. Please login again. E-3');
             }
 
             $cache->save($cacheKey, [
