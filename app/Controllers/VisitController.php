@@ -8,11 +8,16 @@ use App\Models\VisitType;
 
 class VisitController extends BaseController
 {
-    public function index()
+    public function index($visitTypeName)
     {
-        $data['title'] = 'Visit';
+        $visitTypeModel = new VisitType();
+        $visitType = $visitTypeModel->where('name', $visitTypeName)->first();
+        if (!$visitType) {
+            throw new \Exception('Visit type not found');
+        }
 
-        $data['visitTypes'] = (new VisitType())->findAll();
+        $data['title'] = 'Visit - ' . $visitType['name'];
+        $data['visit_id'] = $visitType['id'];
 
         return view('pages/Visit', $data);
     }

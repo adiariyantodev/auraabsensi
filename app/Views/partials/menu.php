@@ -69,21 +69,27 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item <?= (service('uri')->getSegment(1) == 'dashboard' ? 'active' : '' ) ?>" >
-        <a href="<?= base_url('dashboard'); ?>" class="menu-link">
+      <li class="menu-item <?=(service('uri')->getSegment(1) == 'dashboard' ? 'active' : '')?>" >
+        <a href="<?=base_url('dashboard');?>" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
           </a>
       </li>
 
-       <!-- Visit -->
-      <li class="menu-item <?= (service('uri')->getSegment(1) == 'visit' ? 'active' : '' ) ?>" >
-          <a href="<?= base_url('visit'); ?>" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-log-in-circle"></i>
-          <div data-i18n="Tables">Visit</div>
-          </a>
-      </li>
+      <!-- Visit -->
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Visit</span></li>
 
+      <!-- loop each session permissions to build menu -->
+      <?php foreach (session()->get('permissions') as $permission): ?>
+
+        <li class="menu-item <?=(service('uri')->getSegment(2) == $permission ? 'active' : '')?>" >
+          <a href="<?=base_url('visit/' . $permission);?>" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-log-<?=$permission?>-circle"></i>
+            <div data-i18n="Tables"><?=$permission?></div>
+          </a>
+        </li>
+
+      <?php endforeach;?>
 
       <!-- Profile -->
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Profile</span></li>

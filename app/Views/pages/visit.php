@@ -8,7 +8,7 @@
 
         <form id="formAuthentication" class="mb-3" action="<?=base_url('visit/single-submit');?>" method="POST">
             <div class="card mb-4">
-                <h6 class="card-header px-3 pt-3">Single Input - IN</h6>
+                <h6 class="card-header px-3 pt-3"><?= $title ?></h6>
                 <div class="card-body px-3">
                     <div class="form-floating">
                         <input
@@ -22,14 +22,15 @@
                         <label for="person_code">Input ID</label>
                     </div>
 
-                    <div class="mt-3">
-                        <label for="visit_type_id" class="form-label">Visit Type</label>
-                        <select class="form-select" id="visit_type_id" name="visit_type_id" aria-label="Default select example">
-                            <?php foreach ($visitTypes as $visitType): ?>
-                                <option value="<?=$visitType['id']?>"><?=$visitType['name']?></option>
-                            <?php endforeach;?>
-                        </select>
-                      </div>
+                    <input 
+                        type="text"
+                        class="form-control"
+                        id="visit_type_id"
+                        name="visit_type_id"
+                        value="<?= $visit_id ?>"
+                        disabled
+                        hidden
+                    />
 
                     <div class="mt-3">
                         <button class="btn btn-primary d-grid" type="submit">Submit</button>

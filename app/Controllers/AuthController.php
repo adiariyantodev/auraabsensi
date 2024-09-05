@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 
 class AuthController extends BaseController
 {
@@ -29,10 +30,18 @@ class AuthController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        // get roles and permissions
+        $roleModel = new Role();
+        $role = $roleModel->find($user['role_id']);
+        $permissions = json_decode($role['permission'], true);
+
+        // Store session data
         $session_id = session_create_id();
         $session->set([
             'id' => $session_id,
             'user_id' => $user['id'],
+            'role_id' => $user['role_id'],
+            'permissions' => $permissions,
         ]);
 
         $userModel->update($user['id'], [
