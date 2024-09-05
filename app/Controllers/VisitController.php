@@ -8,11 +8,16 @@ use App\Models\VisitType;
 
 class VisitController extends BaseController
 {
-    public function index()
+    public function index($visitTypeName)
     {
-        $data['title'] = 'Visit';
+        $visitTypeModel = new VisitType();
+        $visitType = $visitTypeModel->where('name', $visitTypeName)->first();
+        if (!$visitType) {
+            throw new \Exception('Visit type not found');
+        }
 
-        $data['visitTypes'] = (new VisitType())->findAll();
+        $data['title'] = 'Visit - ' . $visitType['name'];
+        $data['visit_id'] = $visitType['id'];
 
         return view('pages/Visit', $data);
     }
@@ -26,7 +31,9 @@ class VisitController extends BaseController
             $visitTypeId = $this->request->getVar('visit_type_id');
 
             $personModel = new Person();
-            $person = $personModel->where('code', $personCode)->first();
+            $person = $personModel->where('code', $personCode)
+                ->where('instance_id', session()->get('instance_id'))
+                ->first();
             if (!$person) {
                 throw new \Exception('Person not found');
             }
@@ -40,14 +47,15 @@ class VisitController extends BaseController
             $visitModel = new Visit();
             $visitModel->insert([
                 'person_id' => $person['id'],
-                'instance_id' => $person['instance_id'],
+                'source_user_id' => session()->get('user_id'),
+                'instance_id' => session()->get('instance_id'),
                 'visit_type_id' => $visitTypeId,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
             $session->setFlashdata('success', 'Visit Type ' . $visitType['name'] . ' submitted successfully');
 
-            return redirect()->to('/visit');
+            return redirect()->back();
 
         } catch (\Exception $e) {
             $session->setFlashdata('error', $e->getMessage());
