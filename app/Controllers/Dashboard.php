@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-// Add this line to import the class.
-
 class Dashboard extends BaseController
 {
     public function index()

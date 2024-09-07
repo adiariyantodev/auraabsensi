@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Menu;
+use App\Models\Role;
 use App\Models\User;
 
 class AuthController extends BaseController
@@ -29,10 +31,43 @@ class AuthController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        // get roles and permissions
+        $roleModel = new Role();
+        $role = $roleModel->find($user['role_id']);
+        $permissions = json_decode($role['permission'], true);
+
+        // get menu
+        $menuModel = new Menu();
+        $menus = $menuModel->select('name, url, icon, permission, type')
+            ->orderBy('sort', 'asc')
+            ->findAll();
+
+        // get user menus based on permissions
+        $userMenus = [];
+        foreach ($menus as $menu) {
+            if ($menu['type'] == 'separator') {
+                $userMenus[] = $menu;
+                continue;
+            }
+            $menuPermissions = json_decode($menu['permission'], true);
+            foreach ($menuPermissions as $menuPermission) {
+                if (in_array($menuPermission, $permissions)) {
+                    $userMenus[] = $menu;
+                    break;
+                }
+            }
+        }
+        $userMenus = array_map("unserialize", array_unique(array_map("serialize", $userMenus)));
+
+        // Store session data
         $session_id = session_create_id();
         $session->set([
             'id' => $session_id,
             'user_id' => $user['id'],
+            'role_id' => $user['role_id'],
+            'instance_id' => $user['instance_id'],
+            'permissions' => $permissions,
+            'menus' => $userMenus,
         ]);
 
         $userModel->update($user['id'], [
@@ -46,6 +81,9 @@ class AuthController extends BaseController
         $cache->save($cacheKey, [
             'session_id' => $session_id,
         ], 3600); // seconds
+
+        // Store menu data in cache
+        $cache->save('menus', $menus, 3600); // seconds
 
         return redirect()->to('/dashboard');
     }
