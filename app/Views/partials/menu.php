@@ -76,16 +76,18 @@
           </a>
       </li>
 
-      <!-- Visit -->
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Visit</span></li>
-
       <!-- loop each session permissions to build menu -->
-      <?php foreach (session()->get('permissions') as $permission): ?>
+      <?php foreach (session()->get('menus') as $menu): ?>
+        <?php if ($menu['type'] == 'separator'): ?>
+          <li class="menu-header small text-uppercase"><span class="menu-header-text"><?=$menu['name']?></span></li>
+          <?php continue;?>
+        <?php endif;?>
 
-        <li class="menu-item <?=(service('uri')->getSegment(2) == $permission ? 'active' : '')?>" >
-          <a href="<?=base_url('visit/' . $permission);?>" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-log-<?=$permission?>-circle"></i>
-            <div data-i18n="Tables"><?=$permission?></div>
+
+        <li class="menu-item <?=($menu['url'] == uri_string() ? 'active' : '')?>" >
+          <a href="<?=base_url($menu['url']);?>" class="menu-link">
+            <i class="<?=$menu['icon']?>"></i>
+            <div data-i18n="Tables"><?=$menu['name']?></div>
           </a>
         </li>
 
