@@ -4,6 +4,8 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
 
+        <?= $this->include('partials/alert') ?>
+
         <!-- Hoverable Table rows -->
         <div class="card">
         <h5 class="card-header">Hoverable rows</h5>

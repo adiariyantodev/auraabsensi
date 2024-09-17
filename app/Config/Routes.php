@@ -2,6 +2,7 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\Dashboard;
+use App\Controllers\VisitController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -15,4 +16,13 @@ $routes->post('login/attempt', [AuthController::class, 'attempt']);
 
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('dashboard', [Dashboard::class, 'index']);
+
+    $routes->group('', ['filter' => 'permission'], function($routes) {
+        $routes->get('visit/(:segment)', [VisitController::class, 'index']);
+    });
+
+    $routes->group('', ['filter' => 'permission:visit.submit'], function($routes) {
+        $routes->post('visit/single-submit', [VisitController::class, 'singleSubmit']);
+    });
+
 });
